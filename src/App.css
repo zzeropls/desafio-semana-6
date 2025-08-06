@@ -98,7 +98,8 @@ button {
   word-spacing: 20px;
 }
 input:hover,
-button:hover {
+button:hover,
+i {
   cursor: pointer;
 }
 button:hover {

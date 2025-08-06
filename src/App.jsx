@@ -18,13 +18,16 @@ function App() {
   const changeLength = (e) => {
     setPassword({ ...passwordInfo, length: e.target.value });
   };
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(passwordInfo.password);
+  };
   return (
     <div className="app">
       <h1>Password Generator</h1>
 
       <div id="password">
         <p>{passwordInfo.password}</p>
-        <i> ⧉</i>
+        <i onClick={copyToClipboard}>⧉</i>
       </div>
 
       <form id="password-form">
