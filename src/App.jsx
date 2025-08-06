@@ -9,7 +9,7 @@ const initialPassword = () => {
     lowercase: false,
     numbers: false,
     symbols: false,
-    strength: "PLACEHOLDER",
+    strength: "-----PLACEHOLDER-----",
   };
 };
 function App() {
@@ -39,7 +39,7 @@ function App() {
             id="charLength"
             name="charLength"
             min="0"
-            max="10"
+            max="20"
             value={passwordInfo.length}
             onChange={changeLength}
           />
@@ -47,20 +47,52 @@ function App() {
 
         <div id="checkboxes">
           <div id="checkbox-container">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={() =>
+                setPassword({
+                  ...passwordInfo,
+                  uppercase: !passwordInfo.uppercase,
+                })
+              }
+            />
             <label>Include Uppercase Letters</label>
           </div>
           <div id="checkbox-container">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={() =>
+                setPassword({
+                  ...passwordInfo,
+                  lowercase: !passwordInfo.lowercase,
+                })
+              }
+            />
             <label>Include Lowercase Letters</label>
           </div>
           <div id="checkbox-container">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={() =>
+                setPassword({
+                  ...passwordInfo,
+                  numbers: !passwordInfo.numbers,
+                })
+              }
+            />
             <label>Include Numbers</label>
           </div>
           <div id="checkbox-container">
-            <input type="checkbox" />
-            <label>Include Sybols</label>
+            <input
+              type="checkbox"
+              onChange={() =>
+                setPassword({
+                  ...passwordInfo,
+                  symbols: !passwordInfo.symbols,
+                })
+              }
+            />
+            <label>Include Symbols</label>
           </div>
         </div>
 
