@@ -1,18 +1,19 @@
 import { useState } from "react";
 import "./App.css";
 
-const initialPassword = () => {
-  return {
-    password: "P4$5W0rD",
-    length: 0,
-    uppercase: false,
-    lowercase: false,
-    numbers: false,
-    symbols: false,
-    strength: "-----PLACEHOLDER-----",
-  };
-};
 function App() {
+  const initialPassword = () => {
+    return {
+      password: "P4$5W0rD",
+      length: 0,
+      uppercase: false,
+      lowercase: false,
+      numbers: false,
+      symbols: false,
+      strength: "",
+    };
+  };
+
   const [passwordInfo, setPassword] = useState(initialPassword());
 
   const changeLength = (e) => {
@@ -21,6 +22,50 @@ function App() {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(passwordInfo.password);
   };
+  const handleGenerate = (e) => {
+    e.preventDefault();
+    generatePassword();
+  };
+
+  function generatePassword() {
+    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbersChars = "0123456789";
+    const symbolChars = "!@#$%^&*()_=-+~";
+
+    let strength = "WEAK";
+    const { length, uppercase, lowercase, numbers, symbols } = passwordInfo;
+    const score = [uppercase, lowercase, numbers, symbols].filter(
+      Boolean
+    ).length;
+
+    if (length >= 12 && score >= 3) strength = "MEDIUM";
+    else if (length >= 8 && score >= 2) strength = "STRONG";
+
+    let allowedChars = "";
+    let password = "";
+
+    if (lowercase) allowedChars += lowercaseChars;
+    if (uppercase) allowedChars += uppercaseChars;
+    if (numbers) allowedChars += numbersChars;
+    if (symbols) allowedChars += symbolChars;
+
+    if (length === 0 || allowedChars.length === 0) {
+      return "P4$5W0rD";
+    }
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * allowedChars.length);
+      password += allowedChars[randomIndex];
+    }
+
+    setPassword({
+      ...passwordInfo,
+      password: password,
+      strength: strength,
+    });
+  }
+
   return (
     <div className="app">
       <h1>Password Generator</h1>
@@ -30,7 +75,7 @@ function App() {
         <i onClick={copyToClipboard}>⧉</i>
       </div>
 
-      <form id="password-form">
+      <form id="password-form" onSubmit={handleGenerate}>
         <div id="range">
           <label>Character Length</label>
           <p>{passwordInfo.length}</p>

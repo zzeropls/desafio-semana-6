@@ -22,20 +22,22 @@ form {
 #password {
   margin: 25px 0px 20px 0px;
   padding: 20px 30px;
-  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 #password p {
   color: #54535a;
   font-size: 30px;
   font-weight: 700;
-  margin-right: 310px;
+  margin-right: 0px;
+  flex-grow: 1;
 }
 #password i,
 #range p {
   font-size: 30px;
   font-weight: 700;
 }
-
 form {
   padding: 30px;
   flex-direction: column;
