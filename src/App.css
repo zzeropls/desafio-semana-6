@@ -55,14 +55,12 @@ label,
 #range {
   flex-wrap: wrap;
   margin-bottom: 15px;
+  justify-content: space-between;
 }
 #range p,
 #generate,
 #password i {
   color: var(--green);
-}
-#range label {
-  margin-right: 285px;
 }
 #range input,
 #strength,
@@ -138,7 +136,37 @@ label,
 #strength {
   background: var(--gray-800);
   align-items: center;
+  justify-content: space-between;
   padding: 0px 30px;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.8px;
+}
+#calculated-strength p {
+  color: var(--gray-200);
+  font-size: 25px;
+  margin-right: 5px;
+}
+#strength input {
+  cursor: auto;
+  margin-left: 8px;
+  appearance: none;
+  -moz-appearance: none;
+  border: var(--gray-200) solid 2px;
+  width: 11px;
+  height: 28px;
+}
+#strength input:checked {
+  border: none;
+}
+#strength .WEAK:checked {
+  background-color: rgb(117, 239, 115);
+}
+#strength .MEDIUM:checked {
+  background-color: var(--yellow);
+}
+#strength .STRONG:checked {
+  background-color: var(--red);
 }
 #strength,
 button {

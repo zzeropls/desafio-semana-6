@@ -11,6 +11,7 @@ function App() {
       numbers: false,
       symbols: false,
       strength: "",
+      visualIndicator: [false, false, false, false],
     };
   };
 
@@ -33,14 +34,29 @@ function App() {
     const numbersChars = "0123456789";
     const symbolChars = "!@#$%^&*()_=-+~";
 
-    let strength = "WEAK";
     const { length, uppercase, lowercase, numbers, symbols } = passwordInfo;
     const score = [uppercase, lowercase, numbers, symbols].filter(
       Boolean
     ).length;
 
-    if (length >= 12 && score >= 3) strength = "MEDIUM";
-    else if (length >= 8 && score >= 2) strength = "STRONG";
+    let strength, active;
+    if (length >= 12 && score == 4) {
+      strength = "STRONG";
+      active = 4;
+    } else if (length >= 8 && score >= 3) {
+      strength = "MEDIUM";
+      active = 3;
+    } else if (length >= 8 && score >= 2) {
+      strength = "MEDIUM";
+      active = 2;
+    } else {
+      strength = "WEAK";
+      active = 1;
+      console.log(length, score);
+    }
+
+    let visualIndicator = [false, false, false, false];
+    for (let i = 0; i < active; i++) visualIndicator[i] = true;
 
     let allowedChars = "";
     let password = "";
@@ -63,6 +79,7 @@ function App() {
       ...passwordInfo,
       password: password,
       strength: strength,
+      visualIndicator: visualIndicator,
     });
   }
 
@@ -145,6 +162,28 @@ function App() {
           <p>STRENGTH</p>
           <div id="calculated-strength">
             <p>{passwordInfo.strength}</p>
+            <div id="visual-indicator">
+              <input
+                type="checkbox"
+                checked={passwordInfo.visualIndicator[0]}
+                className={passwordInfo.strength}
+              />
+              <input
+                type="checkbox"
+                checked={passwordInfo.visualIndicator[1]}
+                className={passwordInfo.strength}
+              />
+              <input
+                type="checkbox"
+                checked={passwordInfo.visualIndicator[2]}
+                className={passwordInfo.strength}
+              />
+              <input
+                type="checkbox"
+                checked={passwordInfo.visualIndicator[3]}
+                className={passwordInfo.strength}
+              />
+            </div>
           </div>
         </div>
 
