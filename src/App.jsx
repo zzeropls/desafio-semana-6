@@ -52,25 +52,32 @@ function App() {
     if (length === 0 || allowedChars.length === 0 || score > length) {
       password = "P4$5W0rD";
     } else {
-      //verifica se a senha cumpre todos os requisitos marcados nas checkboxes
-      const meetsRequirements = (pwd) => {
-        if (uppercase && !/[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/.test(pwd))
-          return false;
-        if (lowercase && !/[abcdefghijklmnopqrstuvwxyz]/.test(pwd))
-          return false;
-        if (numbers && !/[0123456789]/.test(pwd)) return false;
-        if (symbols && !/[!@#$%^&*()_+\-=[]{};':"|,.<>?]/.test(pwd))
-          return false;
-        return true;
-      };
       //gera a senha
-      do {
-        password = "";
-        for (let i = 0; i < length; i++) {
+      password = "";
+      for (let i = 0; i < length; i++) {
+        if (uppercase && !/[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/.test(password)) {
+          const randomIndex = Math.floor(Math.random() * uppercaseChars.length);
+          password += uppercaseChars[randomIndex];
+        } else if (
+          lowercase &&
+          !/[abcdefghijklmnopqrstuvwxyz]/.test(password)
+        ) {
+          const randomIndex = Math.floor(Math.random() * lowercaseChars.length);
+          password += lowercaseChars[randomIndex];
+        } else if (numbers && !/[0123456789]/.test(password)) {
+          const randomIndex = Math.floor(Math.random() * numbersChars.length);
+          password += numbersChars[randomIndex];
+        } else if (
+          symbols &&
+          !/[!@#$%^&*()_+\-=[]{};':"|,.<>?]/.test(password)
+        ) {
+          const randomIndex = Math.floor(Math.random() * symbolChars.length);
+          password += symbolChars[randomIndex];
+        } else {
           const randomIndex = Math.floor(Math.random() * allowedChars.length);
           password += allowedChars[randomIndex];
         }
-      } while (!meetsRequirements(password));
+      }
       //calcula a força da senha
       let active;
       if (length >= 12 && score == 4) {
