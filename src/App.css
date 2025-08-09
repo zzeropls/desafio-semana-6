@@ -1,5 +1,3 @@
-.app {
-}
 .app div,
 form {
   display: flex;
@@ -37,6 +35,10 @@ form {
 #range p {
   font-size: 30px;
   font-weight: 700;
+}
+#password i:hover,
+#password .generated {
+  color: var(--gray-200);
 }
 form {
   padding: 30px;

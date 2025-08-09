@@ -32,31 +32,12 @@ function App() {
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const numbersChars = "0123456789";
-    const symbolChars = "!@#$%^&*()_=-+~";
+    const symbolChars = "!@#$%^&*()_+-=[]{};':,.<>/?";
 
     const { length, uppercase, lowercase, numbers, symbols } = passwordInfo;
     const score = [uppercase, lowercase, numbers, symbols].filter(
       Boolean
     ).length;
-
-    let strength, active;
-    if (length >= 12 && score == 4) {
-      strength = "STRONG";
-      active = 4;
-    } else if (length >= 8 && score >= 3) {
-      strength = "MEDIUM";
-      active = 3;
-    } else if (length >= 8 && score >= 2) {
-      strength = "MEDIUM";
-      active = 2;
-    } else {
-      strength = "WEAK";
-      active = 1;
-      console.log(length, score);
-    }
-
-    let visualIndicator = [false, false, false, false];
-    for (let i = 0; i < active; i++) visualIndicator[i] = true;
 
     let allowedChars = "";
     let password = "";
@@ -66,14 +47,55 @@ function App() {
     if (numbers) allowedChars += numbersChars;
     if (symbols) allowedChars += symbolChars;
 
-    if (length === 0 || allowedChars.length === 0) {
-      return "P4$5W0rD";
+    let strength = "";
+    let visualIndicator = [false, false, false, false];
+    if (length === 0 || allowedChars.length === 0 || score > length) {
+      password = "P4$5W0rD";
+    } else {
+      //verifica se a senha cumpre todos os requisitos marcados nas checkboxes
+      const meetsRequirements = (pwd) => {
+        if (uppercase && !/[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/.test(pwd))
+          return false;
+        if (lowercase && !/[abcdefghijklmnopqrstuvwxyz]/.test(pwd))
+          return false;
+        if (numbers && !/[0123456789]/.test(pwd)) return false;
+        if (symbols && !/[!@#$%^&*()_+\-=[]{};':"|,.<>?]/.test(pwd))
+          return false;
+        return true;
+      };
+      //gera a senha
+      do {
+        password = "";
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * allowedChars.length);
+          password += allowedChars[randomIndex];
+        }
+      } while (!meetsRequirements(password));
+      //calcula a força da senha
+      let active;
+      if (length >= 12 && score == 4) {
+        strength = "STRONG";
+        active = 4;
+      } else if (length >= 8 && score >= 3) {
+        strength = "MEDIUM";
+        active = 3;
+      } else if (length >= 8 && score >= 2) {
+        strength = "MEDIUM";
+        active = 2;
+      } else {
+        strength = "WEAK";
+        active = 1;
+      }
+      //definindo exibição das barrinhas que indicam a força da senha
+      for (let i = 0; i < active; i++) visualIndicator[i] = true;
     }
 
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * allowedChars.length);
-      password += allowedChars[randomIndex];
-    }
+    /*caso a quantidade de requisitos necessários na senha 
+    senha seja maior do que o tamanho da senha*/
+    if (score > length)
+      window.alert(
+        "A quantidade de tipos diferentes de caracteres requisitados ultrapassa a quantidade de caracteres desejada."
+      );
 
     setPassword({
       ...passwordInfo,
@@ -88,7 +110,9 @@ function App() {
       <h1>Password Generator</h1>
 
       <div id="password">
-        <p>{passwordInfo.password}</p>
+        <p className={passwordInfo.password === "P4$5W0rD" ? "" : "generated"}>
+          {passwordInfo.password}
+        </p>
         <i onClick={copyToClipboard}>⧉</i>
       </div>
 
