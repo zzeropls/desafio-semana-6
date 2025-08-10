@@ -32,7 +32,7 @@ function App() {
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const numbersChars = "0123456789";
-    const symbolChars = "!@#$%^&*()_+-=[]{};':,.<>/?";
+    const symbolChars = "!@#$%^&*()_+-=;':,.<>?";
 
     const { length, uppercase, lowercase, numbers, symbols } = passwordInfo;
     const score = [uppercase, lowercase, numbers, symbols].filter(
@@ -67,10 +67,7 @@ function App() {
         } else if (numbers && !/[0123456789]/.test(password)) {
           const randomIndex = Math.floor(Math.random() * numbersChars.length);
           password += numbersChars[randomIndex];
-        } else if (
-          symbols &&
-          !/[!@#$%^&*()_+\-=[]{};':"|,.<>?]/.test(password)
-        ) {
+        } else if (symbols && !/[!@#$%^&*()_+-=;':,.<>]/.test(password)) {
           const randomIndex = Math.floor(Math.random() * symbolChars.length);
           password += symbolChars[randomIndex];
         } else {
